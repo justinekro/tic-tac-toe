@@ -4,18 +4,22 @@ require 'pry'
 #================================== BOARD =============================================
 class Board
 	attr_accessor :boardcase
-  
-#  def initialize
-#  end
-
+ 
+# Méthode qui affiche pour chaque case la valeur 
 	def print_case_value
-		boardcase.each do |board|
-		puts board.value
+		boardcase.each do |boardcase|
+		puts boardcase.print_value
 		end
 	end
+ 
+# Essayer de changer la valeur directement au sein de Board 
+=begin 
+  def change_content
+  	boardcase.value = "X"
+	end
+=end 
 
 end
-
 
 #================================== BOARDCASE =========================================
 class BoardCase
@@ -26,8 +30,13 @@ class BoardCase
     @value = "vide"
   end
 
-  def value
+# Pour une case, renvoie la valeur
+  def print_value
   	puts "la valeur de #{@id} est #{@value}"
+  end
+
+  def change_value
+  	@value = "X"
   end
 
 end
@@ -48,6 +57,16 @@ end
 #=========================== GAME =========================================
 class Game
 	attr_accessor :players, :board
+
+	def self.actions
+# Si le tour est impair > joueur 1, si le tour est pair, joueur 2
+		puts "Joueur 1, your turn! Sur quelle case voulez-voulez vous plasser votre pion ?"
+
+# Un truc se passe sur boardcase		Board.
+
+	end
+
+
 end
 
 #====================== Initialization ===================================
@@ -83,4 +102,9 @@ c2 = BoardCase.new("C2"),
 c3 = BoardCase.new("C3"),
 ]
 
+=begin
+9.times do |tour|
+	Game.actions
+=end
 
+print myboard.boardcase[1].change_value
