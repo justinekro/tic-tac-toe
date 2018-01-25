@@ -4,15 +4,6 @@ require 'pry'
 class Board
 	attr_accessor :boardcase
 
-=begin 
-# Méthode qui affiche pour chaque case la valeur 
-	def print_case_value
-		boardcase.each do |boardcase|
-		puts boardcase.print_value
-		end
-	end
-=end
-
 # Méthode qui affiche pour chaque case la valeur (forme à revoir ;))
   def print_case_value
     puts boardcase[0].value + "|" + boardcase[1].value + "|" + boardcase[2].value
@@ -22,7 +13,6 @@ class Board
     puts boardcase[6].value + "|" + boardcase[7].value + "|" + boardcase[8].value
   end
 
-
 # Méthode qui change la valeur d'un pion donné
   def change_value(choice,pion)
    #rajouter condition qui dit que si un pion est déjà sur une case ça va pas le faire 
@@ -30,20 +20,27 @@ class Board
   end
 
 # Méthode qui arrête le jeu
-
-  def games_stops(choice)
-
-      boardcase[choice-1].value boardcase[choice].value.to_s boardcase[choice+1].value.to_s
-    
+  def games_stops
+    if boardcase[0].value == boardcase[1].value && boardcase[1].value == boardcase[2].value
+      puts "Game OVER" 
+    elsif boardcase[3].value == boardcase[4].value && boardcase[4].value == boardcase[5].value
+      puts "Game OVER" 
+    elsif boardcase[6].value == boardcase[7].value && boardcase[7].value == boardcase[8].value 
       puts "Game OVER"
-    
-      puts "Game continues!"
-    
+    elsif boardcase[0].value == boardcase[3].value && boardcase[3].value == boardcase[6].value
+      puts "Game OVER"
+    elsif boardcase[1].value == boardcase[4].value && boardcase[4].value == boardcase[7].value
+      puts "Game OVER"
+    elsif boardcase[2].value == boardcase[5].value && boardcase[5].value == boardcase[8].value
+      puts "Game OVER"
+    elsif boardcase[0].value == boardcase[4].value && boardcase[4].value == boardcase[8].value
+      puts "Game OVER"
+    elsif boardcase[2].value == boardcase[4].value && boardcase[4].value == boardcase[6].value
+      puts "Game OVER"
+    else puts "Game continues!"
+    end
   end
-
 end
-
-
 
 #================================== BOARDCASE =========================================
 class BoardCase
@@ -141,6 +138,8 @@ choice = gets.chomp.to_i
 myboard.change_value(choice, "X")
 myboard.print_case_value
 
+myboard.games_stops
+
 puts "#{player2_firstname} sur quelle case souhaitez vous jouer?"
 choice = gets.chomp.to_i
 myboard.print_case_value
@@ -148,5 +147,38 @@ myboard.print_case_value
 myboard.change_value(choice, "O")
 myboard.print_case_value
 
-myboard.games_stops(choice)
+myboard.games_stops
+
+puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
+choice = gets.chomp.to_i
+
+myboard.change_value(choice, "X")
+myboard.print_case_value
+
+myboard.games_stops
+
+puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
+choice = gets.chomp.to_i
+
+myboard.change_value(choice, "X")
+myboard.print_case_value
+
+myboard.games_stops
+
+puts "#{player2_firstname} sur quelle case souhaitez vous jouer?"
+choice = gets.chomp.to_i
+myboard.print_case_value
+
+myboard.change_value(choice, "O")
+myboard.print_case_value
+
+myboard.games_stops
+
+puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
+choice = gets.chomp.to_i
+
+myboard.change_value(choice, "X")
+myboard.print_case_value
+
+myboard.games_stops
 
