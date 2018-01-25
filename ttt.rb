@@ -24,7 +24,7 @@ end
 #================================== BOARDCASE =========================================
 class BoardCase
   attr_accessor :id, :value
-	
+
   def initialize(id)
     @id = id
     @value = "vide"
@@ -35,10 +35,17 @@ class BoardCase
   	puts "la valeur de #{@id} est #{@value}"
   end
 
-  def change_value
-  	@value = "X"
+  def change_value(pion)
+  	@value = pion
   end
 
+=begin
+  def hash_change_value(id, pion)
+    @my_hash = Hash.new
+   
+    @my_hash[@id] = pion
+  end
+=end
 end
 
 #===================================== PLAYER =========================================
@@ -102,9 +109,12 @@ c2 = BoardCase.new("C2"),
 c3 = BoardCase.new("C3"),
 ]
 
-=begin
-9.times do |tour|
-	Game.actions
-=end
+#====================== Début du jeu ===================================
+myboard.print_case_value
 
-print myboard.boardcase[1].change_value
+puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
+choice = gets.chomp
+
+a1.hash_change_value(choice,"X")
+
+myboard.print_case_value
