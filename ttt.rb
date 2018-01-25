@@ -6,6 +6,7 @@ class Board
 
 # Méthode qui affiche pour chaque case la valeur (forme à revoir ;))
   def print_case_value
+    puts "Voici l'état du jeu"
     puts boardcase[0].value + "|" + boardcase[1].value + "|" + boardcase[2].value
     puts "- - -"
     puts boardcase[3].value + "|" + boardcase[4].value + "|" + boardcase[5].value
@@ -20,24 +21,24 @@ class Board
   end
 
 # Méthode qui arrête le jeu
-  def games_stops
-    if boardcase[0].value == boardcase[1].value && boardcase[1].value == boardcase[2].value
-      puts "Game OVER" 
+  def game_stops
+    if boardcase[0].value == boardcase[1].value && boardcase[1].value == boardcase[2].value 
+      stop = true
     elsif boardcase[3].value == boardcase[4].value && boardcase[4].value == boardcase[5].value
-      puts "Game OVER" 
+      stop = true  
     elsif boardcase[6].value == boardcase[7].value && boardcase[7].value == boardcase[8].value 
-      puts "Game OVER"
+      stop = true
     elsif boardcase[0].value == boardcase[3].value && boardcase[3].value == boardcase[6].value
-      puts "Game OVER"
+      stop = true
     elsif boardcase[1].value == boardcase[4].value && boardcase[4].value == boardcase[7].value
-      puts "Game OVER"
+      stop = true
     elsif boardcase[2].value == boardcase[5].value && boardcase[5].value == boardcase[8].value
-      puts "Game OVER"
+      stop = true
     elsif boardcase[0].value == boardcase[4].value && boardcase[4].value == boardcase[8].value
-      puts "Game OVER"
+      stop = true
     elsif boardcase[2].value == boardcase[4].value && boardcase[4].value == boardcase[6].value
-      puts "Game OVER"
-    else puts "Game continues!"
+      stop = true
+    else  stop = false
     end
   end
 end
@@ -76,23 +77,17 @@ class Player
   	@firstname = firstname
   end
 
-  def has_won
-  end
-
 end
 
 #=========================== GAME =========================================
 class Game
 	attr_accessor :players, :board
 
-	def self.actions
-# Si le tour est impair > joueur 1, si le tour est pair, joueur 2
-		puts "Joueur 1, your turn! Sur quelle case voulez-voulez vous plasser votre pion ?"
-
-# Un truc se passe sur boardcase		Board.
-
-	end
-
+  def is_over
+    if board.game_stops == true
+      puts "Game Over"
+      true
+  end
 
 end
 
@@ -132,53 +127,28 @@ c3 = BoardCase.new("C3","9"),
 #====================== Début du jeu ===================================
 myboard.print_case_value
 
-puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
-choice = gets.chomp.to_i
+10.times do |round|
+  if (round +1) % 2 != 0
 
-myboard.change_value(choice, "X")
-myboard.print_case_value
+  puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
+  choice = gets.chomp.to_i
 
-myboard.games_stops
+  myboard.change_value(choice, "X")
+  myboard.print_case_value
 
-puts "#{player2_firstname} sur quelle case souhaitez vous jouer?"
-choice = gets.chomp.to_i
-myboard.print_case_value
+  myboard.game_stops
 
-myboard.change_value(choice, "O")
-myboard.print_case_value
+  else
 
-myboard.games_stops
+  puts "#{player2_firstname} sur quelle case souhaitez vous jouer?"
+  choice = gets.chomp.to_i
+  myboard.print_case_value
 
-puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
-choice = gets.chomp.to_i
+  myboard.change_value(choice, "O")
+  myboard.print_case_value
 
-myboard.change_value(choice, "X")
-myboard.print_case_value
-
-myboard.games_stops
-
-puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
-choice = gets.chomp.to_i
-
-myboard.change_value(choice, "X")
-myboard.print_case_value
-
-myboard.games_stops
-
-puts "#{player2_firstname} sur quelle case souhaitez vous jouer?"
-choice = gets.chomp.to_i
-myboard.print_case_value
-
-myboard.change_value(choice, "O")
-myboard.print_case_value
-
-myboard.games_stops
-
-puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
-choice = gets.chomp.to_i
-
-myboard.change_value(choice, "X")
-myboard.print_case_value
-
-myboard.games_stops
-
+  myboard.game_stops
+  end
+  break if mygame.is_over == true
+end
+end
