@@ -16,9 +16,30 @@ class Board
 
 # Méthode qui change la valeur d'un pion donné
   def change_value(choice,pion)
-   #rajouter condition qui dit que si un pion est déjà sur une case ça va pas le faire 
     boardcase[choice-1].value = pion
   end
+
+# Méthode qui met une erreur si la valeur indiquée par l'utilisateur n'est pas un chiffre
+  def error_number(choice)
+    choice = choice.to_s      
+    if choice.start_with?("1","2","3","4","5","6","7","8","9")
+      false
+    else 
+      puts "Votre réponse doit être un nombre entre 1 et 9 !"
+      true
+    end
+  end
+
+# Méthode qui met une erreur si la valeur indiquée par l'utilisateur a déjà été remplie
+  def error_letter(choice)
+    if boardcase[choice-1].value == "X" || boardcase[choice-1].value == "O"
+    puts "Cette case a déjà été choisie !"
+    true 
+    
+    else false
+    end
+  end
+
 
 # Méthode qui arrête le jeu
   def game_stops
@@ -57,16 +78,6 @@ class BoardCase
   	puts "la valeur de #{@id} est #{@value}"
   end
 
-  def change_value(pion)
-  	@value = pion
-  end
-
-  def hash_change_value(id, pion)
-    @my_hash = Hash.new
-   
-    @my_hash[@id] = pion
-  end
-
 end
 
 #===================================== PLAYER =========================================
@@ -83,6 +94,7 @@ end
 class Game
 	attr_accessor :players, :board
 
+# Méthode qui arrête le jeu
   def is_over
     if board.game_stops == true
       puts "Game Over"
@@ -128,27 +140,46 @@ c3 = BoardCase.new("C3","9"),
 myboard.print_case_value
 
 10.times do |round|
+
   if (round +1) % 2 != 0
 
   puts "#{player1_firstname} sur quelle case souhaitez vous jouer?"
-  choice = gets.chomp.to_i
 
+  choice = gets.chomp.to_i
+  #puts choice.class
+
+# Si le choix a déjà été choisi, on refait un get_chomps
+  while myboard.error_number(choice) == true || myboard.error_letter(choice) == true
+    puts "#{player1_firstname} sur quelle case souhaitez vous jouer?" 
+    choice = gets.chomp.to_i
+  end
+
+# On récupère le choix de l'utilisateur pour modifier la valeur la case correspondant
   myboard.change_value(choice, "X")
   myboard.print_case_value
 
   myboard.game_stops
 
+# On définit les mêmes fonctions pour le deuxième utilisateur
   else
 
   puts "#{player2_firstname} sur quelle case souhaitez vous jouer?"
   choice = gets.chomp.to_i
-  myboard.print_case_value
 
+
+  while myboard.error_number(choice) == true || myboard.error_letter(choice) == true
+  puts "#{player2_firstname} sur quelle case souhaitez vous jouer?"
+  choice = gets.chomp.to_i
+  end
+
+  myboard.print_case_value
   myboard.change_value(choice, "O")
   myboard.print_case_value
 
   myboard.game_stops
+
   end
+# On arrête le jeu quand notre condition est vraie  
   break if mygame.is_over == true
-end
+  end
 end
