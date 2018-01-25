@@ -94,7 +94,7 @@ end
 class Game
 	attr_accessor :players, :board
 
-# Méthode qui arrête le jeu
+# Méthode qui arrête le jeu si les lignes ou diagonales comportent le même caractère
   def is_over
     if board.game_stops == true
       puts "Game Over"
@@ -137,9 +137,10 @@ c3 = BoardCase.new("C3","9"),
 ]
 
 #====================== Début du jeu ===================================
+
 myboard.print_case_value
 
-10.times do |round|
+9.times do |round|
 
   if (round +1) % 2 != 0
 
@@ -157,7 +158,6 @@ myboard.print_case_value
 # On récupère le choix de l'utilisateur pour modifier la valeur la case correspondant
   myboard.change_value(choice, "X")
   myboard.print_case_value
-
   myboard.game_stops
 
 # On définit les mêmes fonctions pour le deuxième utilisateur
@@ -172,14 +172,13 @@ myboard.print_case_value
   choice = gets.chomp.to_i
   end
 
-  myboard.print_case_value
   myboard.change_value(choice, "O")
   myboard.print_case_value
-
   myboard.game_stops
-
   end
+
 # On arrête le jeu quand notre condition est vraie  
   break if mygame.is_over == true
   end
+
 end
